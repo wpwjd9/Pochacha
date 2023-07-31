@@ -2,18 +2,13 @@ package com.ssafy.oho.model.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
-/* Entity는 유효성 검사가 필요 없으므로 Setter, Constructor 또한 Lombok으로 대체함 */
+/* Entity는 유효성 검사가 필요 없으므로 Lombok으로 대체함 */
 @Entity(name="chat")
-@NoArgsConstructor
-@AllArgsConstructor
-
-@Data   //@Getter, @Setter, @RequiredArgsConstructor, @ToString, @EqualsAndHashCode 한번에 정의
-       //@Setter의 경우 추후 Builder 또는 modelMapper로 변경 필요
+// @Builder
+@Getter
 @DynamicInsert
 public class Chat extends Base{
 
@@ -38,5 +33,6 @@ public class Chat extends Base{
 C : 채팅 입력
 R : 뒤늦은 입장 시 이전 채팅 조회?
 U : X
-D : (1) 주기적으로 채팅 기록 삭제 (2) 방 삭제 시 채팅 기록 삭제?
+D : (1) 주기적으로 채팅 기록 삭제
+    (2) 방 삭제 시 채팅 기록 삭제?
  */
