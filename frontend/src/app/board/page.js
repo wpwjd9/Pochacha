@@ -7,6 +7,7 @@ import { styled } from 'styled-components';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import axios from 'axios';
+import { Transition } from 'react-transition-group';
 
 ///// 임시 작업중 
 /// 해야할 것: 모듈 창 꾸미기, 모듈 자동으로 차차 사라지게 하기
@@ -20,11 +21,14 @@ const ModalContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+  /* transition: visibility 0.5s ease-out; */
+  `;
 
 const ModalContent = styled.div`
   background-color: white;
   padding: 70px;
+  /* transition: visibility 0.5s ease-out; */
+  border-radius: 20px;
 `;
 
 
@@ -102,24 +106,16 @@ export default function Board() {
   }, []);
 
   
-  /////////////////////    모달 연습 (현재 작업중.)
-
-  // let softRemover = () => {
-  //   if (opacity > 96) { 
-  //     setTimeout(() => {
-  //       setOpacity(opacity - 1);
-  //     }, 100);
-  //   } else if (opacity > 5)
-  //     setTimeout(() => {
-  //       setOpacity(opacity - 18);
-  //     }, 500); 
-  // }
+  /////////////////////    모달 연습 (미완)
   
   let handleRollDiceClick = () => {
-    let setTimer = setTimeout(() => {
+    setTimeout(() => {
       setShowModal(true);
-      // softRemover(); 
-    }, 1500)
+    }, 1000)
+    setTimeout(() => {
+      setShowModal(false);
+    }, 2500)
+    // setShowModal(false)
   };
   
   const ModalPage = ({ currentCell, pin }) => {
@@ -133,23 +129,14 @@ useEffect(() => {
 }, [showModal]);
 
 
-const onCloseModal = () => {
-  setShowModal(false);
-};
-
-
   return (
     <>
-      {/* <button onClick={() => setShowModal(true)} id='btn'>
-        {selectedOption ? selectedOption : 'Click me to open modal'}
-      </button> */}
-      
       {showModal && (
-        <ModalContainer opacity={opacity}>
-          <ModalContent>
+        <ModalContainer id='modalContainer'>
+          <ModalContent id='modalContent'>
             <p>{currentCell}</p>
             <p>{pin}</p>
-            <button onClick={onCloseModal}>Close</button>
+            {/* <button onClick={onCloseModal}>Close</button> */}
           </ModalContent>
         </ModalContainer>
       )}
@@ -182,9 +169,9 @@ const onCloseModal = () => {
       <DiceBox dice={ dice } />
       <BoardMap pin={ pin } />
 
-      <div>
-      <ModalPage currentCell={currentCell} pin={pin} onCloseModal={() => setShowModal(false)} />
-      </div>
+      <>
+      <ModalPage currentCell={currentCell} pin={pin} />
+      </>
     </div>
   )
 }

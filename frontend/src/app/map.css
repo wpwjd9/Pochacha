@@ -518,9 +518,6 @@
   transform: matrix(0.87, -0.5, 0, 1, 714, -93);
 }
 
-
-/* 여기는 임시임!!!! */
-
 /* #modal {
   position: fixed;
   top: 50%;
@@ -532,5 +529,18 @@
   border-radius: 20px;
   padding: 20px;
   z-index: 1;
+} */
 
+#modalContent {
+  animation: fadeIn 1s;
+  /* animation: fadeOut 1s; */
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+/* @keyframes fadeOut {
+  100% { opacity: 1; }
+  0% { opacity: 0; }
 } */
