@@ -8,6 +8,30 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import axios from 'axios';
 
+///// 임시 작업중 
+/// 해야할 것: 모듈 창 꾸미기, 모듈 자동으로 차차 사라지게 하기
+const ModalContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Apply the opacity here */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 70px;
+`;
+
+
+/////
+
+
+
 export default function Board() {
   
   /*
@@ -19,6 +43,8 @@ export default function Board() {
   let [pin, setPin] = useState(1); // 현재 위치
   let [lab, setLab] = useState(0); // 바퀴 수
   let [client, setClient] = useState({});
+  let [currentCell, setCurrentCell] = useState('')
+  let [showModal, setShowModal] = useState(false);
 
   // 현재 방의 맵 불러오는 함수
   const createMap = () => {
@@ -52,13 +78,18 @@ export default function Board() {
     client.current.connect({}, () => {
       // callback 함수 설정, 대부분 여기에 sub 함수 씀
       client.current.subscribe(`/topic/move/${roomId}`, (response) => {
-        var data = JSON.parse(response.body);
+        let data = JSON.parse(response.body);
+        let currentCell = data.cell.name
 
         setDice(data.dice);
         setPin(data.pin);
         setLab(data.lab);
+        setCurrentCell(data.cell.name)
 
         console.log(data.cell);
+        console.log(data.cell.name)
+        console.log('*********');
+        console.log(data.pin);
       });
     });
   }
@@ -69,7 +100,65 @@ export default function Board() {
     connectSocket();
     subscribeSocket();
   }, []);
+
   
+  /////////////////////    모달 연습 (현재 작업중.)
+
+  // let softRemover = () => {
+  //   if (opacity > 96) { 
+  //     setTimeout(() => {
+  //       setOpacity(opacity - 1);
+  //     }, 100);
+  //   } else if (opacity > 5)
+  //     setTimeout(() => {
+  //       setOpacity(opacity - 18);
+  //     }, 500); 
+  // }
+  
+  let handleRollDiceClick = () => {
+    let setTimer = setTimeout(() => {
+      setShowModal(true);
+      // softRemover(); 
+    }, 1500)
+  };
+  
+  const ModalPage = ({ currentCell, pin }) => {
+
+useEffect(() => {
+  if (showModal) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'initial';
+  }
+}, [showModal]);
+
+
+const onCloseModal = () => {
+  setShowModal(false);
+};
+
+
+  return (
+    <>
+      {/* <button onClick={() => setShowModal(true)} id='btn'>
+        {selectedOption ? selectedOption : 'Click me to open modal'}
+      </button> */}
+      
+      {showModal && (
+        <ModalContainer opacity={opacity}>
+          <ModalContent>
+            <p>{currentCell}</p>
+            <p>{pin}</p>
+            <button onClick={onCloseModal}>Close</button>
+          </ModalContent>
+        </ModalContainer>
+      )}
+      
+    </>
+  );
+};
+
+//////////////////////
   return (
     <div>
       <h1>보드게임 화면</h1>
@@ -82,16 +171,20 @@ export default function Board() {
         };
 
         client.current.send("/move/" + roomId, {}, JSON.stringify(sendData));
-
+        handleRollDiceClick();
       }}>주사위 굴리기</button>
 
       <div>
+
         <h2>주사위 눈 : { dice }, 현재 { pin }번 블록에 위치</h2> <h2>{ lab }바퀴</h2>
       </div>
 
       <DiceBox dice={ dice } />
       <BoardMap pin={ pin } />
 
+      <div>
+      <ModalPage currentCell={currentCell} pin={pin} onCloseModal={() => setShowModal(false)} />
+      </div>
     </div>
   )
 }

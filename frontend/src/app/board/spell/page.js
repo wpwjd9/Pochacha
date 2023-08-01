@@ -51,6 +51,7 @@ function getConstantVowel(word) {
     console.log('checkKorean  '+ str)
     return regExp.test(str[0]) && regExp.test(str[1]) ? true: false;
   }
+  
   // 초성 체크하기
   function checkChoSung(str) {
     return Randomconsonant() === getConstantVowel(text) ? true: false

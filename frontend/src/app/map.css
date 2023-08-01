@@ -150,7 +150,7 @@
   bottom: 0;
   background: #FDEFBD;
   transform: matrix(0.87, 0.5, -0.87, 0.5, 203, -276);
-  z-index: 1;
+  /* z-index: 1; */
 }
 #b6-l{
   position: absolute; 
@@ -517,3 +517,20 @@
   background: #E1C665;
   transform: matrix(0.87, -0.5, 0, 1, 714, -93);
 }
+
+
+/* 여기는 임시임!!!! */
+
+/* #modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 308px;
+  background-color: #F2F4F6;
+  border-radius: 20px;
+  padding: 20px;
+  z-index: 1;
+
+} */
