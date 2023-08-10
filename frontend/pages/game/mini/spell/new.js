@@ -1,85 +1,68 @@
 import React, { useState, useEffect } from "react";
-import styles from "@/styles/SpellGame.module.css";
+// ... (다른 import 문들)
 
 function getConsonant() {
-  const [showModal, setShowModal] = useState(true);
-  const [randomConsonant, setRandomConsonant] = useState("ㄱ ㅅ");
-  const [displayedWords, setDisplayedWords] = useState([]); // 입력한 단어들 저장
-  const [inputValue, setInputValue] = useState(""); // 유저 입력값 저장
+  // 기존 코드
+
+  const [imageSrc, setImageSrc] = useState("/세종대왕_기본.png");
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setShowModal(false);
-    }, 7000);
+    if (showModal) {
+      setImageSrc("/세종대왕_기본.png");
+      const timeout = setTimeout(() => {
+        setShowModal(false);
+      }, 1000); // 설명 모달 시간 설정! 7초 정도? 임시로 1초
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
-
-  const handleInput = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleSubmit = () => {
-    if (inputValue.trim() !== "") {
-      setDisplayedWords((prevWords) => [...prevWords, inputValue]);
-      setInputValue("");
+      return () => {
+        clearTimeout(timeout);
+      };
     }
-  };
+  }, [showModal]);
+
+  useEffect(() => {
+    if (data.correct !== undefined) {
+      if (data.correct) {
+        setImageSrc("/세종대왕_웃음.png");
+      } else {
+        setImageSrc("/세종대왕_화남.png");
+      }
+
+      const imageChangeTimeout = setTimeout(() => {
+        setImageSrc("/세종대왕_기본.png");
+      }, 3000); // 3초 후에 기본 이미지로 변경
+
+      return () => {
+        clearTimeout(imageChangeTimeout);
+      };
+    }
+  }, [data]);
+
+  // 나머지 코드
 
   return (
-    <div className={styles.wrapper}>
-      {showModal && (
-        <div className={styles.modalContainer}>
-          <div className={styles.modalContent}>
-            <p>10초 안에 제시된 초성과 일치하는 단어를 입력하세요.</p>
-            <p>*세종대왕님이 보고 계십니다*</p>
-            <p>*사전에 등재된 단어만 입력해주세요.*</p>
-            <h4>제시된 초성: {randomConsonant}</h4>
-          </div>
-        </div>
-      )}
+    <>
+      <ModalPage />
 
-      <div className={styles.text}>
-        <h1>초성 게임</h1>
-        <label>
-          단어를 입력하세요:
-          <input type="text" value={inputValue} onChange={handleInput} />
-        </label>
-        <button type="button" onClick={handleSubmit}>
-          제출
-        </button>
-      </div>
-      <br />
-      <div className={styles.redBlock}>
-        <img
-          src="/두루마리.png"
-          style={{
-            position: "absolute",
-            width: "600px",
-            left: "0px",
-            marginBottom: "-150px",
-            zIndex: "0",
-          }}
-        />
-        <div className={styles.wordsContainer}>
-          {displayedWords.map((word, index) => (
-            <div
-              key={index}
-              className={styles.word}
-              style={{
-                position: "absolute",
-                left: `${(index % 4) * 150}px`,
-                top: `${Math.floor(index / 4) * 50}px`,
-              }}
-            >
-              {word}
-            </div>
-          ))}
+      <div className={styles.wrapper}>
+        <div className={styles.text}>
+          {/* 기존 코드 */}
+        </div>
+        <br />
+        <div className={styles.redBlock}>
+          <img
+            src={imageSrc}
+            style={{
+              position: "absolute",
+              left: "125px",
+              width: "350px",
+              marginTop: "-350px",
+            }}
+            alt="세종대왕 이미지"
+          />
+          {/* 기존 코드 */}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

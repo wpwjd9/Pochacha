@@ -42,8 +42,21 @@ const getConsonant = () => {
       }
       // setInputWords((prevWords) => [...prevWords, inputValue]);
       // setInputValue("");
-    }
-  };
+    }};
+
+  // useEffect(() => {
+  //   if (inputValue.trim() !== "") {
+  //     if (client.current) {
+  //       let sendData = {
+  //         word: inputValue,
+  //       };
+  //       client.current.send(`/mini/spell/confirm/${roomId}`, {}, JSON.stringify(sendData));
+  //     } else {
+  //       alert("소켓이 연결되지 않았습니다.");
+  //     }
+  //     setInputValue("");
+  //   }
+  // }, [inputValue, client, roomId]);
 
   const setConsonant = () => {
     axios({
