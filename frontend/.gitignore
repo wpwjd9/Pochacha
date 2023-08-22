@@ -8,9 +8,14 @@
 # testing
 /coverage
 
+# next.js
+/.next/
+/out/
 
 # production
 /build
+/.next
+/out
 
 # misc
 .DS_Store
@@ -27,5 +32,6 @@ yarn-error.log*
 # vercel
 .vercel
 
-# next.js
-/.next/
+# typescript
+*.tsbuildinfo
+next-env.d.ts
